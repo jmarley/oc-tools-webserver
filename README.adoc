@@ -1,6 +1,6 @@
 = Sharing OpenShift oc tooling
 
-Much to my dismay the OpenShift utility, oc tools are behinda firewall and are
+Much to my dismay the OpenShift utility, oc tools are behind a firewall and are
 not accessible to the users of OpenShift < 3.2. So If you are using a version
 < 3.2 here is a quick way to share with your team.
 

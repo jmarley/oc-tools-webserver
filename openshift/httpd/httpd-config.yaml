@@ -1,0 +1,136 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: oc-tools-webserver
+    name: oc-tools-webserver
+  spec: {}
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: oc-tools-webserver
+    name: oc-tools-webserver
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: oc-tools-webserver:latest
+    postCommit: {}
+    resources: {}
+    source:
+      git:
+        ref: master
+        uri: git@github.com:jmarley/oc-tools-webserver.git
+      secrets: []
+      type: Git
+    strategy:
+      dockerStrategy:
+        dockerfilePath: support/docker/httpd/Dockerfile 
+      type: Docker
+    triggers:
+    - github:
+        secret: ksZ67V662w8JsNQsKYJ2
+      type: GitHub
+    - generic:
+        secret: y9_oZZsuFdQG6ydmjuAS
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: oc-tools-webserver
+    name: oc-tools-webserver
+  spec:
+    replicas: 1
+    selector:
+      app: oc-tools-webserver
+      deploymentconfig: oc-tools-webserver
+    strategy:
+      resources: {}
+    template:
+      metadata:
+        annotations:
+          openshift.io/container.oc-tools-webserver.image.entrypoint: '["httpd-foreground"]'
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: oc-tools-webserver
+          deploymentconfig: oc-tools-webserver
+      spec:
+        containers:
+        - image: oc-tools-webserver:latest
+          name: oc-tools-webserver
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - oc-tools-webserver
+        from:
+          kind: ImageStreamTag
+          name: oc-tools-webserver:latest
+      type: ImageChange
+  status: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: oc-tools-webserver
+    name: oc-tools-webserver
+  spec:
+    ports:
+    - name: 80-tcp
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+      app: oc-tools-webserver
+      deploymentconfig: oc-tools-webserver
+  status:
+    loadBalancer: {}
+kind: List
+metadata: {}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: oc-tools-webserver
+    name: oc-tools-webserver
+  spec:
+    host: ""
+    port:
+      targetPort: 80-tcp
+    to:
+      name: oc-tools-webserver
+  status:
+    ingress: null
+kind: List
+metadata: {}

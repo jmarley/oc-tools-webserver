@@ -32,7 +32,6 @@ items:
       git:
         ref: master
         uri: git@github.com:jmarley/oc-tools-webserver.git
-      secrets: []
       type: Git
     strategy:
       dockerStrategy:

@@ -1,0 +1,62 @@
+= Sharing OpenShift oc tooling
+
+Much to my dismay the OpenShift utility, oc tools are behinda firewall and are
+not accessible to the users of OpenShift < 3.2. So If you are using a version
+< 3.2 here is a quick way to share with your team.
+
+== Setup
+. git clone project
+. https://docs.openshift.com/enterprise/3.1/cli_reference/get_started_cli.html#installing-the-cli[Get latest versions of OC]
+. move files to oc-files/files directory
++
+[source,bash]
+----
+$ mv ~/path-to-utilities/oc-*-{linux,macosx}.tar.gz \
+~/path-to-oc-files/oc-files/files/
+$ mv ~/path-to-utilities/oc-*-{windows}.zip \
+~/path-to-oc-files/oc-files/files/
+----
+=== OpenShift v3
+
+.Create OpenShift project
+. https://docs.openshift.com/enterprise/3.1/cli_reference/get_started_cli.html#installing-the-cli[Install OpenShift cli tooling]
+. login
++
+[source,bash]
+----
+$ oc login https://<server-name>:8443 -u <username> -p <passwd>
+----
+
+. Create project
++
+[source,bash]
+----
+$ oc new-project oc-utilities
+----
+
+. Create App
++
+[source,bash]
+----
+$ oc new-app oc-tools-webserver
+----
+
+== Testing
+
+. Build docker file
+[source,bash]
+----
+$ docker build -t jmarley/oc-tools -f support/docker/httpd/Dockerfile .
+docker run -dit --name share-oc-tools -p 80:80  jmarley/oc-tools
+----
+
+. Run docker container
+[source,bash]
+----
+$ docker run -dit --name share-oc-tools -p 80:80  jmarley/oc-tools
+----
+
+  . http://localhost[Open URL in web browser]
+
+== References
+. https://hub.docker.com/_/httpd/

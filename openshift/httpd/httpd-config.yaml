@@ -36,7 +36,7 @@ items:
       type: Git
     strategy:
       dockerStrategy:
-        dockerfilePath: support/docker/httpd/Dockerfile 
+        dockerfilePath: support/docker/httpd/Dockerfile
       type: Docker
     triggers:
     - github:
@@ -115,8 +115,6 @@ items:
       deploymentconfig: oc-tools-webserver
   status:
     loadBalancer: {}
-kind: List
-metadata: {}
 - apiVersion: v1
   kind: Route
   metadata:

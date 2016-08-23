@@ -34,6 +34,14 @@ $ oc login https://<server-name>:8443 -u <username> -p <passwd>
 $ oc new-project oc-utilities
 ----
 
+. Add private key as ose secret
++
+[source,bash]
+----
+$ oc secrets new-sshauth sshsecret --ssh-privatekey=keys/id_rsa_spork
+secret/sshsporkkey
+----
+
 . Create App
 +
 [source,bash]

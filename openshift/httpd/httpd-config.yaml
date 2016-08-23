@@ -32,6 +32,8 @@ items:
       git:
         ref: master
         uri: git@github.com:jmarley/oc-tools-webserver.git
+      sourceSecret:
+        name: "sshsecret"
       type: Git
     strategy:
       dockerStrategy:
